@@ -25,8 +25,8 @@ public class VehicleController {
         return new SuccessResponse<>(service.getAllVehicleType());
     }
 
-    @GetMapping("/:location_id/types")
-    public SuccessResponse<List<VehicleType>> getVehicleByLocation(@RequestParam("location_id") String locationId) {
+    @GetMapping("/{location_id}/types")
+    public SuccessResponse<List<VehicleType>> getVehicleByLocation(@PathVariable("location_id") String locationId) {
         UUID locationUuid = UUID.fromString(locationId);
         return new SuccessResponse<List<VehicleType>>(service.getAllVehicleTypeInLocation(locationUuid));
     }
@@ -37,8 +37,8 @@ public class VehicleController {
         return new SuccessResponse<>(new BlankResponse(), "success to create new vehicle type");
     }
 
-    @DeleteMapping("/:vehicle_type_id")
-    public SuccessResponse<BlankResponse> deleteVehicleType(@RequestParam("vehicle_type_id") String vehicleTypeID, Principal principal){
+    @DeleteMapping("/{vehicle_type_id}")
+    public SuccessResponse<BlankResponse> deleteVehicleType(@PathVariable("vehicle_type_id") String vehicleTypeID, Principal principal){
         service.deleteVehicleType(UUID.fromString(vehicleTypeID), principalUtils.getUser(principal));
         return new SuccessResponse<>(new BlankResponse(), "success to delete data");
     }

@@ -25,13 +25,13 @@ public class LocationController {
         return new SuccessResponse<>(service.getAllLocation());
     }
 
-    @GetMapping("/:location_id")
-    public SuccessResponse<Location> findByLocationID(@RequestParam("location_id") String locationID) {
+    @GetMapping("/{location_id}")
+    public SuccessResponse<Location> findByLocationID(@PathVariable("location_id") String locationID) {
         return new SuccessResponse<>(service.findByID(UUID.fromString(locationID)));
     }
 
-    @GetMapping("/:location_id/capacity")
-    public SuccessResponse<ResponseCapacityLocation> getCapacityLocation(@RequestParam("location_id") String locationID) {
+    @GetMapping("/{location_id}/capacity")
+    public SuccessResponse<ResponseCapacityLocation> getCapacityLocation(@PathVariable("location_id") String locationID) {
         return new SuccessResponse<>(service.getCapacityLoan(UUID.fromString(locationID)));
     }
 

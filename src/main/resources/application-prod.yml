@@ -41,6 +41,6 @@ application:
     stacktrace: false
 
   upload:
-    path: /Volumes/AndreeM1/PARKEE/PARKEE_TEST/PARKEE-BE/upload
+    path: /Volumes/AndreeM1/PARKEE/PARKEE_TEST/PARKEE-BE/storage
 
 

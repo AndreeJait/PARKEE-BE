@@ -19,13 +19,13 @@ public class PaymentController {
     private final PaymentService service;
     private final PrincipalUtils principalUtils;
 
-    @GetMapping("/:payment_id")
-    public SuccessResponse<Payment> findPaymentByID(@RequestParam("payment_id") String paymentId){
+    @GetMapping("/{payment_id}")
+    public SuccessResponse<Payment> findPaymentByID(@PathVariable("payment_id") String paymentId){
         return new SuccessResponse<>(service.findPaymentByID(UUID.fromString(paymentId)));
     }
 
-    @GetMapping("/code/:code_payment")
-    public SuccessResponse<Payment> findPaymentByCodePayment(@RequestParam("code_payment") String codePayment){
+    @GetMapping("/code/{code_payment}")
+    public SuccessResponse<Payment> findPaymentByCodePayment(@PathVariable("code_payment") String codePayment){
         return new SuccessResponse<>(service.findPaymentByCodePayment(codePayment));
     }
 

@@ -1,0 +1,17 @@
+package com.andree.panjaitan.parkeebe.upload;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ResponseUpload {
+    @JsonProperty("object_name")
+    String objectName;
+    String url;
+}
