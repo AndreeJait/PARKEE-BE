@@ -1,0 +1,45 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/parkee_svc
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 10MB
+      enabled: true
+
+application:
+  security:
+    jwt:
+      secret-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKrvmxwWTD/UzShdXwB7vT7lnuCS4qHtKDOt4zPqErCEF2YOqgbZZ6gfTPwCUtEyi2KbT+YUfw4vDygrYQM4q9UCAwEAAQ==
+      expiration: 86400000 # A day
+      refresh-token:
+        expiration: 604800000 # A Week
+
+  drees:
+    stacktrace: false
+
+  upload:
+    path: /Volumes/AndreeM1/PARKEE/PARKEE_TEST/PARKEE-BE/upload
+
+
