@@ -42,7 +42,8 @@ CREATE TABLE public."location" (
                                    city varchar(255) NULL,
                                    code_area varchar(255) NULL,
                                    "name" varchar(255) NULL,
-                                   CONSTRAINT location_pkey PRIMARY KEY (id)
+                                   CONSTRAINT location_pkey PRIMARY KEY (id),
+                                   CONSTRAINT uk_fhgltxys5hcc89bhn1i9nvceb UNIQUE (code_area)
 );
 
 
@@ -172,7 +173,6 @@ CREATE TABLE public.vehicle (
                                 updated_by varchar(255) NULL,
                                 total_parking int8 NOT NULL,
                                 vehicle_type_id uuid NULL,
-                                CONSTRAINT uk_i1ca4vb2iasn4prw1mlir3j2j UNIQUE (vehicle_type_id),
                                 CONSTRAINT vehicle_pkey PRIMARY KEY (plat_number),
                                 CONSTRAINT fkddtxlc05rojc56bprvek17hnk FOREIGN KEY (vehicle_type_id) REFERENCES public.vehicle_type(id)
 );

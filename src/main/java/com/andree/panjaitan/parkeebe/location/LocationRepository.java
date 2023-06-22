@@ -14,35 +14,39 @@ public interface LocationRepository extends JpaRepository<Location, UUID> {
     @Query(
             value = """
                     select
-                    	lc2.capacity,
-                    	coalesce(r.booked_count,
-                    	0) as booked_count,
-                    	vt.name as vehicle_type,
-                    	vt.id as vehicle_type_id,
-                    	SUM(lc2.capacity - coalesce(r.booked_count, 0)) available_capacity
-                    from
-                    	vehicle_type as vt
-                    left
-                    join (
-                    	select
-                    		lc.vehicle_type_id,
-                    		count(*) as booked_count
-                    	from
-                    		location as l
-                    	inner join location_capacity lc on
-                    		l.id = lc.location_id
-                    	inner join orders as o on
-                    		o.location_id = l.id
-                    	where
-                    		l.id = :locationId
-                    		and o.exit_at is null
-                    	group by
-                    		vehicle_type_id,
-                    		lc.capacity) as r on
-                    	r.vehicle_type_id = vehicle_type_id
-                    	inner join location_capacity lc2 
-                    	on lc2.vehicle_type_id = vt.id and lc2.location_id  = :locationId
-                    	group by lc2.capacity, vehicle_type, lc2.vehicle_type_id, r.booked_count, vt.id
+                                        	lc.capacity,
+                                        	coalesce(booked_count,
+                                        	0) as booked_count,
+                                        	vt.name as vehicle_type,
+                                        	vt.id as vehicle_type_id,
+                                        	(lc.capacity - coalesce(r.booked_count,
+                                        	0)) available_capacity
+                                        from
+                                        	vehicle_type as vt
+                                        left
+                                                            join (
+                                        	select
+                                        		v.vehicle_type_id,
+                                        		l.id ,
+                                        		count(*) as booked_count
+                                        	from
+                                        		orders o
+                                        	inner join "location" l on
+                                        		l.id = o.location_id
+                                        	inner join vehicle v on
+                                        		o.vehicle_plat_number = v.plat_number
+                                        	inner join vehicle_type vt on
+                                        		vt.id = v.vehicle_type_id
+                                        	where
+                                        		o.exit_at is null
+                                        	group by
+                                        		l.id,
+                                        		v.vehicle_type_id) as r on
+                                        	r.vehicle_type_id = vt.id
+                                        inner join location_capacity lc
+                                            on
+                                        	lc.vehicle_type_id = vt.id
+                                        	and lc.location_id = :locationId
                      """, nativeQuery = true
     )
     List<BookedInfoLocation> countUsedLocation(UUID locationId);
@@ -50,37 +54,41 @@ public interface LocationRepository extends JpaRepository<Location, UUID> {
     @Query(
             value = """
                     select
-                    	lc2.capacity,
-                    	coalesce(r.booked_count,
-                    	0) as booked_count,
-                    	vt.name as vehicle_type,
-                    	vt.id as vehicle_type_id,
-                    	SUM(lc2.capacity - coalesce(r.booked_count, 0)) available_capacity
-                    from
-                    	vehicle_type as vt
-                    left
-                    join (
-                    	select
-                    		lc.vehicle_type_id,
-                    		count(*) as booked_count
-                    	from
-                    		location as l
-                    	inner join location_capacity lc on
-                    		l.id = lc.location_id
-                    	inner join orders as o on
-                    		o.location_id = l.id
-                    	where
-                    		l.id = :locationId
-                    		and o.exit_at is null
-                    	group by
-                    		vehicle_type_id,
-                    		lc.capacity) as r on
-                    	r.vehicle_type_id = vehicle_type_id
-                    	inner join location_capacity lc2
-                    	on lc2.vehicle_type_id = vt.id and lc2.location_id  = :locationId
-                    	where lc2.vehicle_type_id = :vehicleTypeID
-                    	group by lc2.capacity, vehicle_type, lc2.vehicle_type_id, r.booked_count, vt.id
-                     """, nativeQuery = true
+                                        	lc.capacity,
+                                        	coalesce(booked_count,
+                                        	0) as booked_count,
+                                        	vt.name as vehicle_type,
+                                        	vt.id as vehicle_type_id,
+                                        	(lc.capacity - coalesce(r.booked_count,
+                                        	0)) available_capacity
+                                        from
+                                        	vehicle_type as vt
+                                        left
+                                                            join (
+                                        	select
+                                        		v.vehicle_type_id,
+                                        		l.id ,
+                                        		count(*) as booked_count
+                                        	from
+                                        		orders o
+                                        	inner join "location" l on
+                                        		l.id = o.location_id
+                                        	inner join vehicle v on
+                                        		o.vehicle_plat_number = v.plat_number
+                                        	inner join vehicle_type vt on
+                                        		vt.id = v.vehicle_type_id
+                                        	where
+                                        		o.exit_at is null
+                                        	group by
+                                        		l.id,
+                                        		v.vehicle_type_id) as r on
+                                        	r.vehicle_type_id = vt.id
+                                        inner join location_capacity lc
+                                            on
+                                        	lc.vehicle_type_id = vt.id
+                                        	and lc.location_id = :locationId
+                                        where lc.vehicle_type_id = :vehicleTypeID
+                    """, nativeQuery = true
     )
     Optional<BookedInfoLocation> countUsedLocationByVehicleTypeID(UUID locationId, UUID vehicleTypeID);
 

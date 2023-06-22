@@ -17,9 +17,11 @@ public class RequestOrder {
     @JsonProperty("plat_number")
     private String platNumber;
 
+    @JsonProperty("front_image")
     @NotEmpty(message = "car picture is required")
     private String frontImage;
 
+    @JsonProperty("driver_image")
     @NotEmpty(message = "driver picture is required")
     private String driverImage;
 

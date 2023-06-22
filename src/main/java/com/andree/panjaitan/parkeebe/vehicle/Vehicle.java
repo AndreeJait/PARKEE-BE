@@ -20,7 +20,7 @@ public class Vehicle extends BaseEntity {
     @JsonProperty("total_parking")
     public long totalParking;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(columnDefinition = "vehicle_type_id")
     @JsonProperty("vehicle_type")
     public VehicleType vehicleType;
